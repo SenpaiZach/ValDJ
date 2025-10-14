@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { ConfigService } from "./config/config.service";
 import { ValorantAdapter } from "./overwolf/valorantAdapter";
 import { Orchestrator } from "./orchestrator/orchestrator";
