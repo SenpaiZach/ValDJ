@@ -11,8 +11,14 @@ Event-reactive Overwolf application skeleton mapping Valorant game events to Spo
 
 ## Getting Started
 1. Install dependencies: `npm install`.
-2. Copy `config/app.config.example.json` to `config/app.config.json` and adjust to your needs.
-3. Run the orchestrator in mock mode: `npm start`.
+2. Copy `.env.example` to `.env` and fill in your `SPOTIFY_CLIENT_ID` (obtain from [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)).
+3. Register `https://d2nh8tyjgzavqo.cloudfront.net/spotify-relay.html` (or your own hosted relay) as a redirect URI in your Spotify app settings.
+4. Run `npm run auth` to authorize and receive Spotify tokens; they will be written to `.env` automatically.
+5. Copy `config/app.config.example.json` to `config/app.config.json` and adjust to your needs.
+6. Run the orchestrator: `npm start` (defaults to mock mode; set `developer.mockMode: false` to connect live adapters).
+
+## Spotify OAuth Relay
+The helper uses HTTPS redirect via a hosted relay page (`public/spotify-relay.html`) that decodes the `state` parameter and forwards the browser to your local callback. Deploy the relay to any HTTPS domain (e.g., AWS S3 + CloudFront) and update `SPOTIFY_REDIRECT_URI` in `.env` accordingly.
 
 ## Compliance Highlights
 - Only Overwolf GEP is referenced for live Valorant signals (`riotStrictMode` default is `true`).
@@ -21,5 +27,5 @@ Event-reactive Overwolf application skeleton mapping Valorant game events to Spo
 
 ## Next Steps
 - Wire the Overwolf adapter to actual UI windows and register listeners via `overwolf.games.events` API.
-- Implement Spotify OAuth flows and Web Playback SDK device lifecycle management.
 - Expand test coverage for rule evaluation, queue behavior, and compliance guards.
+- Integrate real-time Spotify Web Playback SDK device lifecycle management for in-app playback.
