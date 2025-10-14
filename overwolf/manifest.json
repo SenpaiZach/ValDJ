@@ -1,0 +1,43 @@
+{
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+    "name": "Valorant Spotify Companion",
+    "version": "0.1.0",
+    "minimum-overwolf-version": "0.187.0",
+    "author": "Starter",
+    "icon": "icons/app.ico",
+    "description": "Audio-only Valorant companion reacting to Overwolf GEP events with Spotify playback."
+  },
+  "data": {
+    "start_window": "background",
+    "windows": {
+      "background": {
+        "file": "index.html",
+        "transparent": true,
+        "resizable": false,
+        "show_in_taskbar": false,
+        "allow_right_click": false
+      }
+    }
+  },
+  "permissions": [
+    "GameEvents",
+    "Spotify"
+  ],
+  "dependencies": [
+    {
+      "game_ids": [7764],
+      "features": [
+        "match_info",
+        "kill",
+        "death",
+        "assists",
+        "round_start",
+        "round_end",
+        "match_state",
+        "bomb"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "version": "1.0",
+  "spotify": {
+    "playbackMode": "web_sdk",
+    "preferredDeviceId": null,
+    "scopes": [
+      "streaming",
+      "user-modify-playback-state",
+      "user-read-playback-state"
+    ],
+    "crossfadeMs": 800,
+    "duckingDb": -10,
+    "allowAutoplay": false
+  },
+  "profiles": {
+    "hype": {
+      "name": "Hype",
+      "energyBias": 0.6,
+      "valenceBias": 0.4,
+      "volumeScale": 1.0
+    },
+    "focus": {
+      "name": "Focus",
+      "energyBias": -0.1,
+      "valenceBias": -0.2,
+      "volumeScale": 0.7,
+      "overrides": {
+        "round_start": {
+          "enabled": true,
+          "playlistUris": ["spotify:playlist:focus-roundstart"],
+          "cooldownMs": 20000,
+          "debounceMs": 2500,
+          "interruptPolicy": "duck"
+        }
+      }
+    }
+  },
+  "activeProfile": "hype",
+  "events": {
+    "round_start": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:round-start"],
+      "cooldownMs": 15000,
+      "debounceMs": 1500,
+      "interruptPolicy": "duck",
+      "minEnergy": 0.4,
+      "maxValence": 0.9
+    },
+    "round_end_win": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:round-win"],
+      "cooldownMs": 10000,
+      "debounceMs": 1000,
+      "interruptPolicy": "crossfade"
+    },
+    "round_end_loss": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:round-loss"],
+      "cooldownMs": 10000,
+      "debounceMs": 1000,
+      "interruptPolicy": "duck",
+      "maxEnergy": 0.5
+    },
+    "ace": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:ace-hype"],
+      "trackUris": ["spotify:track:ace-stinger"],
+      "stingerUri": "spotify:track:stinger-ace",
+      "cooldownMs": 30000,
+      "debounceMs": 0,
+      "interruptPolicy": "immediate",
+      "minEnergy": 0.8
+    },
+    "clutch_1vX": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:clutch"],
+      "cooldownMs": 20000,
+      "debounceMs": 0,
+      "interruptPolicy": "crossfade",
+      "minEnergy": 0.7
+    },
+    "multikill": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:multikill"],
+      "cooldownMs": 15000,
+      "debounceMs": 500,
+      "interruptPolicy": "duck",
+      "multikillWindowMs": 6000
+    },
+    "headshot": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:headshot"],
+      "cooldownMs": 5000,
+      "debounceMs": 250,
+      "interruptPolicy": "duck"
+    },
+    "death": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:recovery"],
+      "cooldownMs": 15000,
+      "debounceMs": 1000,
+      "interruptPolicy": "crossfade",
+      "maxEnergy": 0.6
+    },
+    "spike_planted": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:spike-planted"],
+      "cooldownMs": 10000,
+      "debounceMs": 500,
+      "interruptPolicy": "duck"
+    },
+    "spike_defused": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:spike-defused"],
+      "cooldownMs": 10000,
+      "debounceMs": 500,
+      "interruptPolicy": "crossfade"
+    },
+    "spike_detonated": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:spike-detonated"],
+      "cooldownMs": 10000,
+      "debounceMs": 500,
+      "interruptPolicy": "immediate"
+    },
+    "match_victory": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:match-victory"],
+      "cooldownMs": 60000,
+      "debounceMs": 1000,
+      "interruptPolicy": "immediate"
+    },
+    "match_defeat": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:match-defeat"],
+      "cooldownMs": 60000,
+      "debounceMs": 1000,
+      "interruptPolicy": "crossfade"
+    },
+    "match_draw": {
+      "enabled": true,
+      "playlistUris": ["spotify:playlist:match-draw"],
+      "cooldownMs": 60000,
+      "debounceMs": 1000,
+      "interruptPolicy": "crossfade"
+    }
+  },
+  "rules": {
+    "nodes": [
+      { "id": "ingest", "type": "filter", "params": { "riotStrictMode": true } },
+      { "id": "debounce", "type": "debounce", "params": {} },
+      { "id": "cooldown", "type": "cooldown", "params": {} },
+      { "id": "map", "type": "map", "params": {} },
+      { "id": "dispatch", "type": "action", "params": {} }
+    ],
+    "edges": [
+      { "from": "ingest", "to": "debounce" },
+      { "from": "debounce", "to": "cooldown" },
+      { "from": "cooldown", "to": "map" },
+      { "from": "map", "to": "dispatch" }
+    ]
+  },
+  "privacy": {
+    "analyticsOptIn": false,
+    "logPII": false
+  },
+  "compliance": {
+    "riotStrictMode": true,
+    "overlayEnabled": false
+  },
+  "ui": {
+    "locale": "en-US",
+    "notifications": {
+      "enableToasts": true
+    }
+  },
+  "developer": {
+    "loggingLevel": "info",
+    "mockMode": true
+  }
+}
