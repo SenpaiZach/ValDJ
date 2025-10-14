@@ -35,4 +35,4 @@ ts a TS script im ngl icl ts pmo sb
 
 "uhh im a TypeScript" ahh script
 
-we get it vro you're a TS script
+we get it vro you're a TS script 💀
