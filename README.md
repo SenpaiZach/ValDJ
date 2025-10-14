@@ -29,3 +29,6 @@ The helper uses HTTPS redirect via a hosted relay page (`public/spotify-relay.ht
 - Wire the Overwolf adapter to actual UI windows and register listeners via `overwolf.games.events` API.
 - Expand test coverage for rule evaluation, queue behavior, and compliance guards.
 - Integrate real-time Spotify Web Playback SDK device lifecycle management for in-app playback.
+
+
+ts a TS script im ngl icl
