@@ -13,7 +13,7 @@
     "start_window": "background",
     "windows": {
       "background": {
-        "file": "index.html",
+      "file": "background.js",
         "transparent": true,
         "resizable": false,
         "show_in_taskbar": false,
