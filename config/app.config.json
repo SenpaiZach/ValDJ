@@ -176,6 +176,6 @@
   },
   "developer": {
     "loggingLevel": "info",
-    "mockMode": true
+    "mockMode": false
   }
 }

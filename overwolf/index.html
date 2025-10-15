@@ -9,5 +9,50 @@
       <h1>Valorant Spotify Companion</h1>
       <p>Background window placeholder. All logic runs in the orchestrator.</p>
     </main>
+    <script type="module">
+      import '../dist/config/config.service.js';
+      import '../dist/orchestrator/orchestrator.js';
+      import '../dist/overwolf/valorantAdapter.js';
+      import { Orchestrator } from '../dist/orchestrator/orchestrator.js';
+      import { ConfigService } from '../dist/config/config.service.js';
+      import { ValorantAdapter } from '../dist/overwolf/valorantAdapter.js';
+
+      // Simple bridge for the UI window to communicate
+      const valdjBridge = {
+        orchestrator: null,
+        valorantAdapter: null,
+        async postMessage(msg) {
+          try {
+            if (msg.type === 'simulate_event' && valdjBridge.valorantAdapter) {
+              // Only allowed when mockMode
+              valdjBridge.valorantAdapter.pushMockEvent({ key: msg.payload.key, timestamp: Date.now() });
+              return;
+            }
+            if (msg.type === 'set_volume' && valdjBridge.orchestrator && valdjBridge.orchestrator['spotifyClient']) {
+              const vol = Math.max(0, Math.min(100, Number(msg.payload.volumePercent)||0));
+              await valdjBridge.orchestrator['spotifyClient'].setVolume(vol/100);
+              return;
+            }
+          } catch (e) {
+            console.error('Bridge error', e);
+          }
+        }
+      };
+      (async () => {
+        try {
+          const configService = new ConfigService();
+          const initialConfig = await configService.load();
+          const valorantAdapter = new ValorantAdapter({ mockMode: initialConfig.developer.mockMode });
+          const orchestrator = new Orchestrator({ configService, valorantAdapter });
+          await orchestrator.start();
+          window.valdjBridge = valdjBridge;
+          valdjBridge.orchestrator = orchestrator;
+          valdjBridge.valorantAdapter = valorantAdapter;
+          console.info('Overwolf background started');
+        } catch (err) {
+          console.error('Failed to start Overwolf background', err);
+        }
+      })();
+    </script>
   </body>
 </html>

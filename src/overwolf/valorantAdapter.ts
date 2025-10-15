@@ -48,6 +48,23 @@ export class ValorantAdapter {
     }
 
     if (typeof overwolf !== "undefined") {
+      // Request the features we depend on
+      try {
+  overwolf.games.events.setRequiredFeatures([
+          "match_info",
+          "kill",
+          "death",
+          "assists",
+          "round_start",
+          "round_end",
+          "match_state",
+          "bomb"
+        ], (info: { status: string; supportedFeatures?: string[]; error?: string }) => {
+          // Optional: log or update health based on info.status
+          // console.info('setRequiredFeatures', info);
+        });
+      } catch {}
+
       overwolf.games.events.onNewEvents.addListener((event) => {
         if (!event || !event.events) {
           return;
@@ -190,6 +207,10 @@ export class ValorantAdapter {
 declare const overwolf: {
   games: {
     events: {
+      setRequiredFeatures: (
+        features: string[],
+        callback: (info: { status: string; supportedFeatures?: string[]; error?: string }) => void
+      ) => void;
       onNewEvents: { addListener: (handler: (data: { events: ValorantRawEvent[] }) => void) => void };
       onInfoUpdates2: { addListener: (handler: (data: { info: Record<string, unknown> }) => void) => void };
     };

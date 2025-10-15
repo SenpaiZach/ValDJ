@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ValDJ Controls</title>
+    <link rel="stylesheet" href="ui.css" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; img-src 'self' data:;">
+  </head>
+  <body>
+    <header>
+      <h1>ValDJ</h1>
+      <span class="status" id="status">Loading…</span>
+    </header>
+
+    <section class="controls">
+      <div class="row">
+        <label>Volume</label>
+        <input type="range" id="volume" min="0" max="100" value="70" />
+        <button id="setVolume">Set</button>
+      </div>
+      <div class="row">
+        <label>Simulate Event</label>
+        <select id="eventKey">
+          <option value="round_start">round_start</option>
+          <option value="round_end_win">round_end_win</option>
+          <option value="round_end_loss">round_end_loss</option>
+          <option value="ace">ace</option>
+          <option value="clutch_1vX">clutch_1vX</option>
+          <option value="multikill">multikill</option>
+          <option value="headshot">headshot</option>
+          <option value="death">death</option>
+          <option value="spike_planted">spike_planted</option>
+          <option value="spike_defused">spike_defused</option>
+          <option value="spike_detonated">spike_detonated</option>
+          <option value="match_victory">match_victory</option>
+          <option value="match_defeat">match_defeat</option>
+          <option value="match_draw">match_draw</option>
+        </select>
+        <button id="sendEvent">Send</button>
+      </div>
+    </section>
+
+    <section class="log" id="log"></section>
+
+    <script src="ui.js"></script>
+  </body>
+</html>
