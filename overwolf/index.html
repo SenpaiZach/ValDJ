@@ -5,17 +5,14 @@
     <title>Valorant Spotify Companion</title>
   </head>
   <body>
-    <main>
-      <h1>Valorant Spotify Companion</h1>
-      <p>Background window placeholder. All logic runs in the orchestrator.</p>
-    </main>
+    <main></main>
     <script type="module">
-      import '../dist/config/config.service.js';
-      import '../dist/orchestrator/orchestrator.js';
-      import '../dist/overwolf/valorantAdapter.js';
-      import { Orchestrator } from '../dist/orchestrator/orchestrator.js';
-      import { ConfigService } from '../dist/config/config.service.js';
-      import { ValorantAdapter } from '../dist/overwolf/valorantAdapter.js';
+  import '../dist/config/config.service.js';
+  import '../dist/orchestrator/orchestrator.js';
+  import '../dist/overwolf/valorantAdapter.js';
+  import { Orchestrator } from '../dist/orchestrator/orchestrator.js';
+  import { ConfigService } from '../dist/config/config.service.js';
+  import { ValorantAdapter } from '../dist/overwolf/valorantAdapter.js';
 
       // Simple bridge for the UI window to communicate
       const valdjBridge = {
@@ -48,9 +45,26 @@
           window.valdjBridge = valdjBridge;
           valdjBridge.orchestrator = orchestrator;
           valdjBridge.valorantAdapter = valorantAdapter;
+          // Try to auto-open the control window for convenience
+          try {
+            overwolf.windows.obtainDeclaredWindow('control', (res) => {
+              if (res && res.status === 'success') {
+                overwolf.windows.restore(res.window.id);
+              }
+            });
+          } catch (e) {
+            console.warn('Could not auto-open control window', e);
+          }
           console.info('Overwolf background started');
         } catch (err) {
           console.error('Failed to start Overwolf background', err);
+          try {
+            const el = document.createElement('pre');
+            el.style.color = '#fff';
+            el.style.fontFamily = 'monospace';
+            el.textContent = 'Failed to start background: ' + (err && err.message ? err.message : String(err));
+            document.body.appendChild(el);
+          } catch {}
         }
       })();
     </script>
